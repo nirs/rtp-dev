@@ -2,7 +2,7 @@
 This driver like to switch lanes even when it does not need to, prefering right
 turn.
 """
-from rtp.common import obstacles, actions
+from rose.common import obstacles, actions
 
 server_address = "localhost"
 driver_name = "Zig Zag"
@@ -10,7 +10,7 @@ driver_name = "Zig Zag"
 def drive(world):
     def valid_move(pos):
         try:
-            obstacle = world.get_obstacle(pos)
+            obstacle = world.get(pos)
         except IndexError:
             return False
         return obstacle in (obstacles.NONE, obstacles.PENGUIN)
@@ -23,7 +23,7 @@ def drive(world):
     # Check cell above the car (y-1)
     up = world.car.x, world.car.y - 1
     if valid_move(up):
-        if world.get_obstacle(up) == obstacles.PENGUIN:
+        if world.get(up) == obstacles.PENGUIN:
             print 'PICK'
             return actions.PICKUP
         else:

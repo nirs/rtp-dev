@@ -3,7 +3,7 @@ This driver try to pick the action with the best score.
 """
 import random
 import itertools
-from rtp.common import obstacles, actions
+from rose.common import obstacles, actions
 
 server_address = "localhost"
 driver_name = "Score"
@@ -38,7 +38,7 @@ def drive(world):
 
 def check_forward(world, (x, y), options):
     try:
-        obstacle = world.get_obstacle((x, y))
+        obstacle = world.get((x, y))
         if obstacle == obstacles.PENGUIN:
             print 'check_forward obstacle:', obstacle, 'score: 6 action:', actions.PICKUP
             options.append((5, actions.PICKUP))
@@ -64,7 +64,7 @@ def check_forward(world, (x, y), options):
 def check_turn(world, (x, y), action, options):
     # Can I switch to this lane?
     try:
-        obstacle = world.get_obstacle((x, y))
+        obstacle = world.get((x, y))
     except IndexError:
         print 'check_turn: cannot switch to lane: %d' % x
         return  # No
@@ -84,7 +84,7 @@ def check_turn(world, (x, y), action, options):
 def penguin_ahead(world, (x, y)):
     while 1:
         try:
-            obstacle = world.get_obstacle((x, y))
+            obstacle = world.get((x, y))
         except IndexError:
             return False
         if obstacle == obstacles.PENGUIN:
